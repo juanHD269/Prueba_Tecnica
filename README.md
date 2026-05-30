@@ -18,6 +18,12 @@ En Windows:
 La API queda en:
 - http://localhost:8080
 
+## Despliegue (opcional)
+El despliegue en nube no es requerido por el enunciado, pero se puede usar como diferenciador.
+
+La API soporta `PORT` por variable de entorno (útil en plataformas como Render):
+- `server.port=${PORT:8080}`
+
 ### 2) Consola H2 (opcional)
 - http://localhost:8080/h2-console
 - JDBC URL: `jdbc:h2:mem:bikerental`
