@@ -10,6 +10,8 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import com.prueba.bikerental.common.ConflictException;
 import com.prueba.bikerental.common.NotFoundException;
@@ -48,6 +50,11 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ApiErrorResponse> handleIllegalArgument(IllegalArgumentException ex, HttpServletRequest request) {
 		return buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI(), null);
+	}
+
+	@ExceptionHandler({NoHandlerFoundException.class, NoResourceFoundException.class})
+	public ResponseEntity<ApiErrorResponse> handleNotFoundSpring(Exception ex, HttpServletRequest request) {
+		return buildError(HttpStatus.NOT_FOUND, "Ruta no encontrada", request.getRequestURI(), null);
 	}
 
 	@ExceptionHandler(Exception.class)
