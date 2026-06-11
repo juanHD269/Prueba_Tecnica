@@ -1,22 +1,28 @@
 package com.prueba.bikerental.api.bicycle;
 
+import java.net.URI;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.prueba.bikerental.bicycle.Bicycle;
 import com.prueba.bikerental.bicycle.BicycleService;
 import com.prueba.bikerental.bicycle.BicycleType;
 import com.prueba.bikerental.rental.Rental;
 import com.prueba.bikerental.rental.RentalService;
+
 import jakarta.validation.Valid;
-import java.net.URI;
-import java.util.List;
-import java.util.Optional;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 @RequestMapping("/api/bicycles")
@@ -43,6 +49,12 @@ public class BicycleController {
 				.stream()
 				.map(this::toResponse)
 				.toList();
+	}
+
+		@PutMapping("/{code}/status")
+	public ResponseEntity<BicycleResponse> update(@PathVariable("code") String code, @RequestBody UpdateBicycleRequest request) {
+		Bicycle updated = bicycleService.update(code, request.getStatus());
+		return ResponseEntity.ok(toResponse(updated));
 	}
 
 	@GetMapping("/{code}/rentals")

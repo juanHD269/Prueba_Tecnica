@@ -35,6 +35,13 @@ public class BicycleService {
 				.orElseThrow(() -> new NotFoundException("No existe bicicleta con código " + code));
 	}
 
+	@Transactional
+	public Bicycle update(String code, BicycleStatus status) {
+		Bicycle bicycle = getByCode(code);
+		bicycle.setStatus(status);
+		return bicycleRepository.save(bicycle);
+	}
+
 	@Transactional(readOnly = true)
 	public List<Bicycle> getAvailable(Optional<BicycleType> type) {
 		if (type.isPresent()) {
