@@ -51,7 +51,7 @@ public class BicycleController {
 				.toList();
 	}
 
-		@PutMapping("/{code}/status")
+	@PutMapping("/{code}/status")
 	public ResponseEntity<BicycleResponse> update(@PathVariable("code") String code, @RequestBody UpdateBicycleRequest request) {
 		Bicycle updated = bicycleService.update(code, request.getStatus());
 		return ResponseEntity.ok(toResponse(updated));
